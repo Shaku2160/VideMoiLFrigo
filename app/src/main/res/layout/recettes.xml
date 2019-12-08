@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/titreRecette"
+        android:layout_margin="16dp"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/imageRecette"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:contentDescription="@string/description"/>
+
+</LinearLayout>
