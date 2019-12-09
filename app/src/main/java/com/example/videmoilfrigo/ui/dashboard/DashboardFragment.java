@@ -103,6 +103,11 @@ public class DashboardFragment extends Fragment {
                                 try {
                                     JSONArray jArray = new JSONArray(response);
 
+                                    if(listeRecette.size() > 0) {
+                                        listeRecette.clear();
+                                        adapter.notifyDataSetChanged();
+                                    }
+
                                     for(int i=0; i<jArray.length();i++){
 
                                         JSONObject oneObject = jArray.getJSONObject(i);
