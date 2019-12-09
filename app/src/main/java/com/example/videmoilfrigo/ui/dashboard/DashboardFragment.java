@@ -80,8 +80,8 @@ public class DashboardFragment extends Fragment {
 
                 Log.d("read ingred >>>>>>>",list.toString() );
 
-                String ingredients = list.get(0);
-                for (int i = 1; i < list.size(); i++) {
+                String ingredients = "water";
+                for (int i = 0; i < list.size(); i++) {
                     ingredients +=",+"+list.get(i);
                 }
 
