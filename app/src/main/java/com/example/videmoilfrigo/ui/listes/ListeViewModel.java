@@ -1,4 +1,4 @@
-package com.example.videmoilfrigo.ui.notifications;
+package com.example.videmoilfrigo.ui.listes;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

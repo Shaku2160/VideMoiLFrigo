@@ -71,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser currentUser) {
 
 
-        if (currentUser != null) {
-            Toast.makeText(this, "Authentication failed ?",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Authentication success ?",
-                    Toast.LENGTH_SHORT).show();
-        }
+//        if (currentUser != null) {
+//            Toast.makeText(this, "Authentication failed ?",
+//                    Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(this, "Authentication success ?",
+//                    Toast.LENGTH_SHORT).show();
+//        }
 
     }
 

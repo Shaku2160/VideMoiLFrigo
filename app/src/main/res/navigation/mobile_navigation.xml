@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_liste"
-        android:name="com.example.videmoilfrigo.ui.notifications.ListeFragment"
+        android:name="com.example.videmoilfrigo.ui.listes.ListeFragment"
         android:label="@string/title_liste"
         tools:layout="@layout/fragment_liste" />
 

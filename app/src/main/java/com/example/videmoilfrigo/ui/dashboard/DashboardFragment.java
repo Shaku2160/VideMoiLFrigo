@@ -7,21 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,11 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.videmoilfrigo.DetailRecette;
-import com.example.videmoilfrigo.MainActivity;
 import com.example.videmoilfrigo.R;
 import com.example.videmoilfrigo.Recette;
-import com.example.videmoilfrigo.ui.home.HomeFragment;
-import com.example.videmoilfrigo.ui.notifications.ListeFragment;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -49,7 +40,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DashboardFragment extends Fragment {
 
@@ -72,6 +62,7 @@ public class DashboardFragment extends Fragment {
 
         final Button APIButton = getView().findViewById(R.id.buttonAPI);
         final RecyclerView liste = getView().findViewById(R.id.ListeRecettes);
+        final EditText nbRecette = getView().findViewById(R.id.nbRecette);
 
 
         // mise en place de l'adapter pour la recycleView des recettes
@@ -98,7 +89,7 @@ public class DashboardFragment extends Fragment {
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(getContext());
                 String url ="https://api.spoonacular.com/recipes/findByIngredients?" +
-                        "ingredients="+ingredients+"&number=5"+
+                        "ingredients="+ingredients+"&number="+nbRecette.getText()+
                         "&apiKey=5af23d9e1f1d478b8f353dd0cb64ac8c";
 
 
@@ -270,7 +261,7 @@ public class DashboardFragment extends Fragment {
             titre.setText(recette.getTitre());
 
 
-           // Log.d("IMAGE ->>>>>> ",recette.getImage());
+            // Log.d("IMAGE ->>>>>> ",recette.getImage());
             Picasso.get().load(recette.getImage()).into(image);
 
 

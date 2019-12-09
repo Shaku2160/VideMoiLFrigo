@@ -16,14 +16,25 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/buttonAPI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="160dp"
-                android:text="Button" />
+                android:text="Idee Recette"
+                android:layout_weight="1"
+
+                />
+
+            <EditText
+                android:id="@+id/nbRecette"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="1"
+                android:inputType="numberSigned" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
