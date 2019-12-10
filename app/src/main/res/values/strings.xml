@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">VideMoiLFrigo</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_home">Frigo</string>
+    <string name="title_dashboard">Recette</string>
     <string name="title_liste">Liste de course</string>
     <string name="description">image de la recette</string>
     <string name="Email">E-mail</string>
     <string name="Password">Password</string>
-    <string name="connexion">Connect</string>
+    <string name="connexion">Sign In</string>
     <string name="modification">Modification</string>
     <string name="sign_out">Sign Out</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">Connect</string>
     <string name="nom">Nom</string>
     <string name="prenom">Prénom</string>
     <string name="compte">Compte</string>

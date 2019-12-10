@@ -44,8 +44,8 @@ import java.util.ArrayList;
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
-    public ArrayList<String> list = new ArrayList<>();
-    public ArrayList<Recette> listeRecette = new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
+    private ArrayList<Recette> listeRecette = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -85,22 +85,22 @@ public class DashboardFragment extends Fragment {
                     ingredients +=",+"+list.get(i);
                 }
 
-                // CALL API
-                // Instantiate the RequestQueue.
+                // configuration de l'url pour l'API
+                // Recherche des recettes par ingredients
                 RequestQueue queue = Volley.newRequestQueue(getContext());
                 String url ="https://api.spoonacular.com/recipes/findByIngredients?" +
                         "ingredients="+ingredients+"&number="+nbRecette.getText()+
                         "&apiKey=5af23d9e1f1d478b8f353dd0cb64ac8c";
 
 
-                // Request a string response from the provided URL.
+                // Configuration de la requete URL
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                // Display the first 500 characters of the response string.
                                 Log.d("test API >>>>>>>>>>>", response);
                                 try {
+                                    // récupération de la réponse sous format JSON
                                     JSONArray jArray = new JSONArray(response);
 
                                     if(listeRecette.size() > 0) {
@@ -108,10 +108,10 @@ public class DashboardFragment extends Fragment {
                                         adapter.notifyDataSetChanged();
                                     }
 
+                                    // on parse le JSONArray pour en extraire les informations
                                     for(int i=0; i<jArray.length();i++){
 
                                         JSONObject oneObject = jArray.getJSONObject(i);
-                                        // Pulling items from the array
                                         String titre = oneObject.getString("title");
                                         String image = oneObject.getString("image");
                                         String id = oneObject.getString("id");
@@ -139,12 +139,13 @@ public class DashboardFragment extends Fragment {
                             }
                         });
 
-                // Add the request to the RequestQueue.
+                // Ajoute la requete à la file
                 queue.add(stringRequest);
             }
         });
     }
 
+    // lecture du fichier local "savedFrigo" pour récupérer les ingredients disponible
     private void readIngredient() {
         File file = new File(getContext().getFilesDir(), "savedFrigo");
         if (!file.exists()) {
@@ -170,6 +171,7 @@ public class DashboardFragment extends Fragment {
 
 
 
+    // Adapter de la RecycleView
     class Recettes extends RecyclerView.Adapter<Recettes.ViewHolder> {
 
         ArrayList<Recette> mRecettes;
@@ -177,43 +179,33 @@ public class DashboardFragment extends Fragment {
 
 
 
-        // Provide a direct reference to each of the views within a data item
-        // Used to cache the views within the item layout for fast access
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-            // Your holder should contain a member variable
-            // for any view that will be set as you render a row
 
             public TextView titreRecette;
             public ImageView imageRecette;
 
-            // We also create a constructor that accepts the entire item row
-            // and does the view lookups to find each subview
+
             public ViewHolder(View itemView) {
 
-                // Stores the itemView in a public final member variable that can be used
-                // to access the context from any ViewHolder instance.
                 super(itemView);
 
                 titreRecette = itemView.findViewById(R.id.titreRecette);
                 imageRecette = itemView.findViewById(R.id.imageRecette);
 
-                // Attach a click listener to the entire row view
+                // ajoute un listener sur chaque item de la recycleView
                 itemView.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
 
-                int position = getAdapterPosition(); // gets item position
-                if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
                     Recette recette = mRecettes.get(position);
-                    // We can access the data within the views
+
                     Toast.makeText(getContext(), titreRecette.getText(), Toast.LENGTH_SHORT).show();
 
-//                    Fragment fragment = null;
-//
-//                    fragment = new ListeFragment();
-//                    replaceFragment(fragment);
+
 
                     Intent intent = new Intent(getActivity(), DetailRecette.class);
 
@@ -225,17 +217,8 @@ public class DashboardFragment extends Fragment {
 
             }
 
-//            public void replaceFragment(Fragment someFragment) {
-//                Log.d("CLICK !!!!!!!!!!!!!!", "ez");
-//                Toast.makeText(getContext(), "CLICK !", Toast.LENGTH_SHORT).show();
-//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//                transaction.replace(R.id.navigation_liste, someFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-//            }
         }
 
-        // Pass in the contact array into the constructor
         public Recettes(ArrayList<Recette> recettes) {
             mRecettes = recettes;
         }
@@ -246,27 +229,23 @@ public class DashboardFragment extends Fragment {
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
 
-            // Inflate the custom layout
             View contactView = inflater.inflate(R.layout.recettes, parent, false);
 
-            // Return a new holder instance
             ViewHolder viewHolder = new ViewHolder(contactView);
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull Recettes.ViewHolder holder, int position) {
-            // Get the data model based on position
             Recette recette = mRecettes.get(position);
 
-            // Set item views based on your views and data model
             TextView titre = holder.titreRecette;
             ImageView image = holder.imageRecette;
 
             titre.setText(recette.getTitre());
 
 
-            // Log.d("IMAGE ->>>>>> ",recette.getImage());
+            // utilisation de Picasso pour charger une image grace à son URL
             Picasso.get().load(recette.getImage()).into(image);
 
 

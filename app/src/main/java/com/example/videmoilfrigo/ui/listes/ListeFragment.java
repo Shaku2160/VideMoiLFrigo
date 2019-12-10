@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.videmoilfrigo.C_user;
+import com.example.videmoilfrigo.FireBaseDataTools;
 import com.example.videmoilfrigo.R;
 
 import java.io.BufferedReader;
@@ -32,27 +34,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ListeFragment extends Fragment {
 
-    public ArrayList<String> list = new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
 
     private ListeViewModel listeViewModel;
 
-
-
-
-   /* @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-        savedInstanceState.putStringArrayList("Liste", list);
-
-        // etc.
-    }*/
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,11 +56,6 @@ public class ListeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_liste, container, false);
 
 
-      /*  if	(savedInstanceState	!=	null)
-        {
-            list = savedInstanceState.getStringArrayList("Liste");
-
-        }*/
         return root;
     }
 
@@ -95,6 +81,15 @@ public class ListeFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 list.remove(position);
+                                if(C_user.get_instance().get_currentUser() != null) {
+                                    Map<String, Object> data = new HashMap<>();
+                                    for (String s: list) {
+                                        data.put(s, 1);
+                                    }
+                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                            C_user.get_instance().get_currentUser().getUid(),
+                                            data);
+                                }
                                 adapter.setData(list);
                                 saveInfo("savedList");
 
@@ -123,7 +118,6 @@ public class ListeFragment extends Fragment {
                 ingredientsFields.setAdapter(adapterAutoFill);
 
 
-                //productInput.setSingleLine();
                 ingredientsFields.setSingleLine();
                 AlertDialog dialog = new AlertDialog.Builder( me)
                         .setTitle("Ajout d'un nouveau produit")
@@ -134,8 +128,17 @@ public class ListeFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 list.add(ingredientsFields.getText().toString());
 
+                                if(C_user.get_instance().get_currentUser() != null) {
+                                    Map<String, Object> data = new HashMap<>();
+                                    for (String s: list) {
+                                        data.put(s, 1);
+                                    }
+                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                            C_user.get_instance().get_currentUser().getUid(),
+                                            data);
+                                }
+
                                 adapter.setData(list);
-                                // myRef.setValue(productInput.getText().toString());
 
 
                                 saveInfo("savedList");
@@ -168,7 +171,27 @@ public class ListeFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 saveInfo("newFrigo");
+                                if(C_user.get_instance().get_currentUser() != null) {
+                                    Map<String, Object> data = FireBaseDataTools.get_instance().get_document_in_map("frigo",
+                                            C_user.get_instance().get_currentUser().getUid());
+
+                                    for (String s: list) {
+                                        data.put(s, 1);
+                                    }
+                                    FireBaseDataTools.get_instance().add_map_in_document("frigo",
+                                            C_user.get_instance().get_currentUser().getUid(),
+                                            data);
+                                }
                                 list.clear();
+                                if(C_user.get_instance().get_currentUser() != null) {
+                                    Map<String, Object> data = new HashMap<>();
+                                    for (String s: list) {
+                                        data.put(s, 1);
+                                    }
+                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                            C_user.get_instance().get_currentUser().getUid(),
+                                            data);
+                                }
                                 adapter.setData(list);
                                 saveInfo("savedList");
 
@@ -184,6 +207,15 @@ public class ListeFragment extends Fragment {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 list.clear();
+                                                if(C_user.get_instance().get_currentUser() != null) {
+                                                    Map<String, Object> data = new HashMap<>();
+                                                    for (String s: list) {
+                                                        data.put(s, 1);
+                                                    }
+                                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                                            C_user.get_instance().get_currentUser().getUid(),
+                                                            data);
+                                                }
                                                 adapter.setData(list);
                                                 saveInfo("savedList");
                                             }
@@ -245,12 +277,6 @@ public class ListeFragment extends Fragment {
         }
     }
 
-    // chaque fois que l'appli est en pause, les informations sont sauvegardé
-    //@Override
-    //public void onPause(){
-    //  super.onPause();
-    // savedInfo();
-    //}
 
     class TextAdapter extends BaseAdapter {
 

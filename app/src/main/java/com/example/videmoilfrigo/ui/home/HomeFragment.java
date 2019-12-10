@@ -45,18 +45,14 @@ public class HomeFragment extends Fragment {
 
 
 
-    public ArrayList<String> list = new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        /*if(getArguments() !=null){
-            Bundle b = getArguments();
-            ArrayList<String> test = b.getStringArrayList("testListe");
-            Log.d("test", test.toString());
-        }*/
+
 
 
         return root;
@@ -91,7 +87,7 @@ public class HomeFragment extends Fragment {
                                     for (String s: list) {
                                         data.put(s, 1);
                                     }
-                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                    FireBaseDataTools.get_instance().add_map_in_document("frigo",
                                             C_user.get_instance().get_currentUser().getUid(),
                                             data);
                                 }
@@ -144,7 +140,7 @@ public class HomeFragment extends Fragment {
                                     for (String s: list) {
                                         data.put(s, 1);
                                     }
-                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                    FireBaseDataTools.get_instance().add_map_in_document("frigo",
                                             C_user.get_instance().get_currentUser().getUid(),
                                             data);
                                 }
@@ -184,7 +180,7 @@ public class HomeFragment extends Fragment {
                                     for (String s: list) {
                                         data.put(s, 1);
                                     }
-                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                    FireBaseDataTools.get_instance().add_map_in_document("frigo",
                                             C_user.get_instance().get_currentUser().getUid(),
                                             data);
                                 }
@@ -288,6 +284,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    // adapter de la textView
     class TextAdapter extends BaseAdapter {
 
         List<String> list = new ArrayList<>();
