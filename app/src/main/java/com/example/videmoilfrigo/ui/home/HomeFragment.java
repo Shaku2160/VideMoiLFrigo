@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.videmoilfrigo.C_user;
+import com.example.videmoilfrigo.FireBaseDataTools;
 import com.example.videmoilfrigo.R;
 
 import java.io.BufferedReader;
@@ -32,7 +34,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
@@ -81,6 +85,17 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 list.remove(position);
+
+                                if(C_user.get_instance().get_currentUser() != null) {
+                                    Map<String, Object> data = new HashMap<>();
+                                    for (String s: list) {
+                                        data.put(s, 1);
+                                    }
+                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                            C_user.get_instance().get_currentUser().getUid(),
+                                            data);
+                                }
+
                                 adapter.setData(list);
                                 saveInfo();
 
@@ -124,6 +139,16 @@ public class HomeFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 list.add(ingredientsFields.getText().toString());
 
+                                if(C_user.get_instance().get_currentUser() != null) {
+                                    Map<String, Object> data = new HashMap<>();
+                                    for (String s: list) {
+                                        data.put(s, 1);
+                                    }
+                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                            C_user.get_instance().get_currentUser().getUid(),
+                                            data);
+                                }
+
                                 adapter.setData(list);
 
                                 saveInfo();
@@ -153,6 +178,17 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 list.clear();
+
+                                if(C_user.get_instance().get_currentUser() != null) {
+                                    Map<String, Object> data = new HashMap<>();
+                                    for (String s: list) {
+                                        data.put(s, 1);
+                                    }
+                                    FireBaseDataTools.get_instance().add_map_in_document("liste_course",
+                                            C_user.get_instance().get_currentUser().getUid(),
+                                            data);
+                                }
+
                                 adapter.setData(list);
                                 saveInfo();
                             }
