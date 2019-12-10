@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if(C_user.get_instance().get_currentUser() != null)
         {
             C_user.get_instance().get_user();
+            FireBaseDataTools.get_instance().ecoute_frigo();
         }
     }
 

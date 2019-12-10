@@ -172,8 +172,7 @@ public class ListeFragment extends Fragment {
 
                                 saveInfo("newFrigo");
                                 if(C_user.get_instance().get_currentUser() != null) {
-                                    Map<String, Object> data = FireBaseDataTools.get_instance().get_document_in_map("frigo",
-                                            C_user.get_instance().get_currentUser().getUid());
+                                    Map<String, Object> data = FireBaseDataTools.get_instance().get_data();
 
                                     for (String s: list) {
                                         data.put(s, 1);

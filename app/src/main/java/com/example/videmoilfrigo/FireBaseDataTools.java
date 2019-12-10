@@ -8,9 +8,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +34,29 @@ public class FireBaseDataTools {
         return fire_base_data_tools;
     }
 
+    public void ecoute_frigo(){
+        if(C_user.get_instance().get_currentUser().getUid() != null) {
+            final DocumentReference docRef = db.collection("frigo").
+                    document(C_user.get_instance().get_currentUser().getUid());
+            docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                    @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w("ecoute_frigo", "Listen failed.", e);
+                        return;
+                    }
+
+                    if (snapshot != null && snapshot.exists()) {
+                        Log.d("ecoute_frigo", "Current data: " + snapshot.getData());
+                        data = snapshot.getData();
+                    } else {
+                        Log.d("ecoute_frigo", "Current data: null");
+                    }
+                }
+            });
+        }
+    }
 
     public void add_map_in_document(final String p_collection, final String p_document, Map<String, Object> p_data){
 
@@ -75,27 +101,7 @@ public class FireBaseDataTools {
                 });
     }
 
-    public Map<String, Object> get_document_in_map(final String p_collection, final String p_document){
-
-        DocumentReference docRef = db.collection(p_collection).document(p_document);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("GET_USER", "DocumentSnapshot data: " + document.getData());
-                        data.clear();
-                        data = document.getData();
-                    } else {
-                        Log.d("GET_USER", "No such document");
-                    }
-                } else {
-                    Log.d("GET_USER", "get failed with ", task.getException());
-                }
-            }
-        });
-
+    public Map<String, Object> get_data(){
         return data;
     }
 }
